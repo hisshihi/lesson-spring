@@ -6,9 +6,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloWorldController {
 
-    @GetMapping(path = "/hello")
-    public String helloWorld() {
-        return "Hello Hiss!";
+    private final Person person;
+
+    public HelloWorldController(Person person) {
+        this.person = person;
     }
 
+    @GetMapping("/person")
+    public Person getPerson() {
+        return person;
+    }
+
+    @GetMapping("/person/name")
+    public String getNamePerson() {
+        return person.getName();
+    }
 }
