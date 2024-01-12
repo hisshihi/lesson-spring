@@ -19,6 +19,6 @@ public class HelloWorldController {
 
     @GetMapping("/person/name")
     public String getNamePerson() {
-        return person.getName();
+        return "I`m " +  person.getName();
     }
 }
