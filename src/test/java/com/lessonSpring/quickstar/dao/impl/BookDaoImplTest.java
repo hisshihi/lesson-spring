@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import static com.lessonSpring.quickstar.TestDataUtil.createTestBook;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
@@ -24,11 +25,7 @@ public class BookDaoImplTest {
 //    Добавляем данные в бд
     @Test
     public void testThatCreateBookGeneratesCorrectSql() {
-        Book book = Book.builder()
-                .isbn("8-934-321-00-34")
-                .title("The Lord of the pick")
-                .authorId(1L)
-                .build();
+        Book book = createTestBook();
 
         bookDao.create(book);
 
@@ -36,6 +33,7 @@ public class BookDaoImplTest {
                 eq("8-934-321-00-34"), eq("The Lord of the pick"), eq(1L)
         );
     }
+
 
     @Test
     public void testThatFindOneBookGeneratesCorrectSql() {

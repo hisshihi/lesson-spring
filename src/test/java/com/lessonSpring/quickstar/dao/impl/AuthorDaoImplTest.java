@@ -1,5 +1,6 @@
 package com.lessonSpring.quickstar.dao.impl;
 
+import com.lessonSpring.quickstar.TestDataUtil;
 import com.lessonSpring.quickstar.domain.Author;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,11 +24,7 @@ public class AuthorDaoImplTest {
 
     @Test
     public void testThatCreateAuthorGeneratesCorrectSql() {
-        Author author = Author.builder()
-                .id(1L)
-                .name("Hiss")
-                .age(21)
-                .build();
+        Author author = TestDataUtil.createTestAuthor();
 
         authorDao.create(author);
 
@@ -46,6 +43,16 @@ public class AuthorDaoImplTest {
         verify(jdbcTemplate).query(
                 eq("SELECT id, name, age FROM authors WHERE id = ? LIMIT 1"),
                 ArgumentMatchers.<AuthorDaoImpl.AuthorRowMapper>any(), eq(1L));
+    }
+
+//    Метод для поиска всех авторов
+    @Test
+    public void testThatFindManyGeneratesCorrectSql() {
+        authorDao.findAll();
+        verify(jdbcTemplate).query(
+                eq("SELECT id, name, age FROM authors"),
+                ArgumentMatchers.<AuthorDaoImpl.AuthorRowMapper>any()
+        );
     }
 
 }
