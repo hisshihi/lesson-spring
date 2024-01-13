@@ -1,9 +1,9 @@
-package com.lessonSpring.quickstar.dao;
+package com.lessonSpring.quickstar.dao.impl;
 
-import com.lessonSpring.quickstar.dao.impl.AuthorDaoImpl;
 import com.lessonSpring.quickstar.domain.Author;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -35,6 +35,17 @@ public class AuthorDaoImplTest {
                 eq("INSERT INTO authors (id, name, age) VALUES (?, ?, ?)"),
                 eq(1L), eq("Hiss"), eq(21)
         );
+    }
+
+    //    Создаём тест который будет проверять правильность SQL кода
+    @Test
+    public void testThatFindOneGeneratesCorrectSql() {
+        authorDao.findOne(1L);
+
+//        Проверяем шаблон обновления
+        verify(jdbcTemplate).query(
+                eq("SELECT id, name, age FROM authors WHERE id = ? LIMIT 1"),
+                ArgumentMatchers.<AuthorDaoImpl.AuthorRowMapper>any(), eq(1L));
     }
 
 }

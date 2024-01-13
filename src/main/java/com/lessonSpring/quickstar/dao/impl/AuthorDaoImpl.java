@@ -3,6 +3,12 @@ package com.lessonSpring.quickstar.dao.impl;
 import com.lessonSpring.quickstar.dao.AuthorDao;
 import com.lessonSpring.quickstar.domain.Author;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Optional;
 
 public class AuthorDaoImpl implements AuthorDao {
 
@@ -18,4 +24,28 @@ public class AuthorDaoImpl implements AuthorDao {
                 author.getId(), author.getName(), author.getAge()
         );
     }
+
+    @Override
+    public Optional<Author> findOne(long authorId) {
+        List<Author> results = jdbcTemplate.query("SELECT id, name, age FROM authors WHERE id = ? LIMIT 1",
+                    new AuthorRowMapper(), authorId);
+        return results.stream().findFirst();
+    }
+
+    /*
+    * Создаём средство отображения строк
+    * Мы возваращем значене из бд и преобразовывем его в объект
+    * */
+    public static class AuthorRowMapper implements RowMapper<Author> {
+
+        @Override
+        public Author mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return Author.builder()
+                    .id(rs.getLong("id"))
+                    .name(rs.getString("name"))
+                    .age(rs.getInt("age"))
+                    .build();
+        }
+    }
+
 }

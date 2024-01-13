@@ -2,6 +2,12 @@ package com.lessonSpring.quickstar.dao;
 
 import com.lessonSpring.quickstar.domain.Author;
 
+import java.util.Optional;
+
 public interface AuthorDao {
     void create(Author author);
+
+//    Если находим автора с этим параметром, то возвращаем его
+//    Однако если автор не будет найден будет всё ровно возвращён пустой параметр
+    Optional<Author> findOne(long l);
 }
