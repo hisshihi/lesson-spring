@@ -104,4 +104,32 @@ public class BookDaoImplIntegrationTest {
         System.out.println(result);
     }
 
+    @Test
+    public void testThatBookCanBeDeleted() {
+        Author author = TestDataUtil.createTestAuthor();
+        authorDao.create(author);
+        Book book = TestDataUtil.createTestBook();
+        underTest.create(book);
+        book.setAuthorId(author.getId());
+
+        Author authorA = TestDataUtil.createTestAuthorA();
+        authorDao.create(authorA);
+        Book bookA = TestDataUtil.createTestBookA();
+        underTest.create(bookA);
+        bookA.setAuthorId(authorA.getId());
+
+        underTest.delete(bookA.getIsbn(), bookA);
+
+//        Optional<Book> result = underTest.findOne(book.getIsbn());
+//        assertThat(result).isNotPresent();
+
+        List<Book> results = underTest.findAll();
+
+        assertThat(results).hasSize(1).containsExactly(book);
+
+        for (Book result : results) {
+            System.out.println(result);
+        }
+    }
+
 }

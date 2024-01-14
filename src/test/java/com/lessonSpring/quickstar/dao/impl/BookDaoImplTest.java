@@ -56,10 +56,17 @@ public class BookDaoImplTest {
     }
 
     @Test
-    public void testThatUpdateGeneratesCorrectSq() {
+    public void testThatUpdateGeneratesCorrectSql() {
         Book book = TestDataUtil.createTestBook();
         bookDao.update("786932", book);
         verify(jdbcTemplate).update("UPDATE books SET isbn = ?, title = ?, author_id = ? WHERE isbn = ?", "786932", "The Lord of the pick", 1L, "786932");
     }
 
+//    Метод удаления
+    @Test
+    public void testThatDeleteGeneratesCorrectSql() {
+        Book book = TestDataUtil.createTestBook();
+        bookDao.delete("786932", book);
+        verify(jdbcTemplate).update("DELETE FROM books WHERE isbn = ?", "786932");
+    }
 }
