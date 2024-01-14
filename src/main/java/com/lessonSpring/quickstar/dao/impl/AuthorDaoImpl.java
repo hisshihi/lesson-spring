@@ -53,6 +53,11 @@ public class AuthorDaoImpl implements AuthorDao {
         );
     }
 
+    @Override
+    public void delete(long id, Author author) {
+        jdbcTemplate.update("DELETE FROM authors WHERE id = ?", author.getId());
+    }
+
     /*
      * Создаём средство отображения строк
      * Мы возваращем значене из бд и преобразовывем его в объект

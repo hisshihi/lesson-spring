@@ -2,6 +2,7 @@ package com.lessonSpring.quickstar.dao.impl;
 
 import com.lessonSpring.quickstar.TestDataUtil;
 import com.lessonSpring.quickstar.domain.Author;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +79,21 @@ public class AuthorDaoImplIntegrationTests {
         assertThat(result.get()).isEqualTo(authorB);
         System.out.println(result);
         System.out.println(authorB);
+    }
+
+    @Test
+    public void testThatAuthorCanBeDeleted() {
+        Author author = TestDataUtil.createTestAuthor();
+        underTest.create(author);
+        underTest.delete(author.getId(), author);
+
+        Author authorA = TestDataUtil.createTestAuthorA();
+        underTest.create(authorA);
+
+        List<Author> results = underTest.findAll();
+//        assertThat(result).isNotPresent();
+//        assertThat(result.get()).isEqualTo(author);
+        System.out.println(results);
     }
 
 }

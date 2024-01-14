@@ -57,7 +57,7 @@ public class AuthorDaoImplTest {
 
     //    Метод для обновления данных
     @Test
-    public void testThatUpdateGeneratesCorrectSq() {
+    public void testThatUpdateGeneratesCorrectSql() {
         Author author = TestDataUtil.createTestAuthor();
         authorDao.update(3L, author);
 
@@ -68,6 +68,15 @@ public class AuthorDaoImplTest {
          * */
         verify(jdbcTemplate).update(
                 "UPDATE authors SET id = ?, name = ?, age = ? WHERE id = ?", 1L, "Hiss", 21, 3L);
+    }
+
+//    Метод удаления данных
+    @Test
+    public void testThatDeleteGeneratesCorrectSql() {
+        Author author = TestDataUtil.createTestAuthor();
+        authorDao.delete(1L, author);
+
+        verify(jdbcTemplate).update("DELETE FROM authors WHERE id = ?", 1L);
     }
 
 }
