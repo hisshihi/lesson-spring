@@ -1,5 +1,6 @@
 package com.lessonSpring.quickstar.dao.impl;
 
+import com.lessonSpring.quickstar.TestDataUtil;
 import com.lessonSpring.quickstar.domain.Book;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -52,6 +53,13 @@ public class BookDaoImplTest {
                 eq("SELECT isbn, title, author_id FROM books"),
                 ArgumentMatchers.<BookDaoImpl.BookRowMapper>any()
                 );
+    }
+
+    @Test
+    public void testThatUpdateGeneratesCorrectSq() {
+        Book book = TestDataUtil.createTestBook();
+        bookDao.update("786932", book);
+        verify(jdbcTemplate).update("UPDATE books SET isbn = ?, title = ?, author_id = ? WHERE isbn = ?", "786932", "The Lord of the pick", 1L, "786932");
     }
 
 }
