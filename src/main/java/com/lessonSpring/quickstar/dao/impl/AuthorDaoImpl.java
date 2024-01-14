@@ -30,7 +30,7 @@ public class AuthorDaoImpl implements AuthorDao {
     @Override
     public Optional<Author> findOne(long authorId) {
         List<Author> results = jdbcTemplate.query("SELECT id, name, age FROM authors WHERE id = ? LIMIT 1",
-                    new AuthorRowMapper(), authorId);
+                new AuthorRowMapper(), authorId);
         return results.stream().findFirst();
     }
 
@@ -38,13 +38,25 @@ public class AuthorDaoImpl implements AuthorDao {
     public List<Author> findAll() {
         return jdbcTemplate.query("SELECT id, name, age FROM authors",
                 new AuthorRowMapper()
-                );
+        );
+    }
+
+    //    Метод для обновления автора
+    @Override
+    public void update(long id, Author author) {
+        jdbcTemplate.update(
+                "UPDATE authors SET id = ?, name = ?, age = ? WHERE id = ?",
+                author.getId(),
+                author.getName(),
+                author.getAge(),
+                id
+        );
     }
 
     /*
-    * Создаём средство отображения строк
-    * Мы возваращем значене из бд и преобразовывем его в объект
-    * */
+     * Создаём средство отображения строк
+     * Мы возваращем значене из бд и преобразовывем его в объект
+     * */
     public static class AuthorRowMapper implements RowMapper<Author> {
 
         @Override

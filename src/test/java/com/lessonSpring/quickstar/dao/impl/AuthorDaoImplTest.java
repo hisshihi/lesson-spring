@@ -45,7 +45,7 @@ public class AuthorDaoImplTest {
                 ArgumentMatchers.<AuthorDaoImpl.AuthorRowMapper>any(), eq(1L));
     }
 
-//    Метод для поиска всех авторов
+    //    Метод для поиска всех авторов
     @Test
     public void testThatFindManyGeneratesCorrectSql() {
         authorDao.findAll();
@@ -53,6 +53,21 @@ public class AuthorDaoImplTest {
                 eq("SELECT id, name, age FROM authors"),
                 ArgumentMatchers.<AuthorDaoImpl.AuthorRowMapper>any()
         );
+    }
+
+    //    Метод для обновления данных
+    @Test
+    public void testThatUpdateGeneratesCorrectSq() {
+        Author author = TestDataUtil.createTestAuthor();
+        authorDao.update(3L, author);
+
+        /*
+         * verify - метод из фреймворка Mockito,
+         *  который используется для проверки того, что метод был вызван с определёнными аргументами.
+         *  В вашем тесте вы используете его для проверки того, что метод jdbcTemplate.query() был вызван с правильным SQL-запросом.
+         * */
+        verify(jdbcTemplate).update(
+                "UPDATE authors SET id = ?, name = ?, age = ? WHERE id = ?", 1L, "Hiss", 21, 3L);
     }
 
 }

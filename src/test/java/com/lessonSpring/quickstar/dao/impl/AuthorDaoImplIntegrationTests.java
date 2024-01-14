@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
@@ -15,6 +16,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
+
+/*
+* @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD) - это аннотация в Spring Boot,
+*  которая указывает, что после каждого метода теста необходимо очищать контекст приложения.
+*  Это означает, что все бобы, созданные в контексте приложения, будут уничтожены после каждого теста, и при следующем тесте будет создан новый контекст приложения.
+
+*  Это полезно для обеспечения независимости тестов друг от друга.
+*  Если бы контекст приложения не очищался после каждого теста, то изменения, сделанные в контексте одним тестом,
+*  могли бы повлиять на другие тесты. Это могло бы привести к ошибкам и нестабильности тестов.
+* */
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class AuthorDaoImplIntegrationTests {
 
     private AuthorDaoImpl underTest;
@@ -52,6 +64,20 @@ public class AuthorDaoImplIntegrationTests {
                 .hasSize(3)
                 .containsExactly(author, authorA, authorB);
         System.out.println(result);
+    }
+
+    @Test
+    public void testThatAuthorCanBeUpdated() {
+        Author authorB = TestDataUtil.createTestAuthorB();
+        underTest.create(authorB);
+        authorB.setName("Солнышко");
+        underTest.update(authorB.getId(), authorB);
+
+        Optional<Author> result =  underTest.findOne(authorB.getId());
+        assertThat(result).isPresent();
+        assertThat(result.get()).isEqualTo(authorB);
+        System.out.println(result);
+        System.out.println(authorB);
     }
 
 }

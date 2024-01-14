@@ -20,12 +20,12 @@ public class BookDaoImpl implements BookDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-//    Добавление данных в бд
+    //    Добавление данных в бд
     @Override
     public void create(Book book) {
         jdbcTemplate.update("INSERT INTO books (isbn, title, author_id) VALUES (?, ?, ?)",
                 book.getIsbn(), book.getTitle(), book.getAuthorId()
-                );
+        );
     }
 
     @Override
@@ -33,6 +33,11 @@ public class BookDaoImpl implements BookDao {
         List<Book> results = jdbcTemplate.query("SELECT isbn, title, author_id FROM books WHERE isbn = ? LIMIT 1",
                 new BookRowMapper(), isbn);
         return results.stream().findFirst();
+    }
+
+    @Override
+    public List<Book> findAll() {
+        return jdbcTemplate.query("SELECT isbn, title, author_id FROM books", new BookRowMapper());
     }
 
     public static class BookRowMapper implements RowMapper<Book> {

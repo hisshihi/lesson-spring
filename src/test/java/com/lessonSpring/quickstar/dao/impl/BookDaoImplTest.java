@@ -30,18 +30,27 @@ public class BookDaoImplTest {
         bookDao.create(book);
 
         verify(jdbcTemplate).update(eq("INSERT INTO books (isbn, title, author_id) VALUES (?, ?, ?)"),
-                eq("8-934-321-00-34"), eq("The Lord of the pick"), eq(1L)
+                eq("786932"), eq("The Lord of the pick"), eq(1L)
         );
     }
 
 
     @Test
     public void testThatFindOneBookGeneratesCorrectSql() {
-        bookDao.findOne("8-934-321-00-34");
+        bookDao.findOne("786932");
         verify(jdbcTemplate).query(
                 eq("SELECT isbn, title, author_id FROM books WHERE isbn = ? LIMIT 1"),
                 ArgumentMatchers.<BookDaoImpl.BookRowMapper>any(),
-                eq("8-934-321-00-34")
+                eq("786932")
+                );
+    }
+
+    @Test
+    public void testThatFindManyBookGeneratesCorrectSql() {
+        bookDao.findAll();
+        verify(jdbcTemplate).query(
+                eq("SELECT isbn, title, author_id FROM books"),
+                ArgumentMatchers.<BookDaoImpl.BookRowMapper>any()
                 );
     }
 

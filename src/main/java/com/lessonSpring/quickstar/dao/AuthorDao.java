@@ -14,4 +14,6 @@ public interface AuthorDao {
 
     //    Метод для поиска всех авторов
     List<Author> findAll();
+
+    void update(long id, Author author);
 }
