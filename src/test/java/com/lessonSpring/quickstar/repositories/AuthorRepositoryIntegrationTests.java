@@ -1,8 +1,7 @@
-package com.lessonSpring.quickstar.dao.impl;
+package com.lessonSpring.quickstar.repositories;
 
 import com.lessonSpring.quickstar.TestDataUtil;
 import com.lessonSpring.quickstar.domain.Author;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -28,13 +26,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 *  могли бы повлиять на другие тесты. Это могло бы привести к ошибкам и нестабильности тестов.
 * */
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class AuthorDaoImplIntegrationTests {
+public class AuthorRepositoryIntegrationTests {
 
-    private AuthorDaoImpl underTest;
+    private AuthorRepository underTest;
 
     @Autowired
-    public AuthorDaoImplIntegrationTests(AuthorDaoImpl authorDao) {
-        this.underTest = authorDao;
+    public AuthorRepositoryIntegrationTests(AuthorRepository underTest) {
+        this.underTest = underTest;
     }
 
     @Test
@@ -42,8 +40,8 @@ public class AuthorDaoImplIntegrationTests {
 
 //        Создаём нового автора
         Author author = TestDataUtil.createTestAuthor();
-        underTest.create(author);
-        Optional<Author> result = underTest.findOne(author.getId());
+        underTest.save(author);
+        Optional<Author> result = underTest.findById(author.getId());
         assertThat(result).isPresent();
         assertThat(result.get()).isEqualTo(author);
         System.out.println(author);
@@ -54,13 +52,13 @@ public class AuthorDaoImplIntegrationTests {
     @Test
     public void testThatMultipleAuthorsBeCreatedAndRecallerd() {
         Author author = TestDataUtil.createTestAuthor();
-        underTest.create(author);
+        underTest.save(author);
         Author authorA = TestDataUtil.createTestAuthorA();
-        underTest.create(authorA);
+        underTest.save(authorA);
         Author authorB = TestDataUtil.createTestAuthorB();
-        underTest.create(authorB);
+        underTest.save(authorB);
 
-        List<Author> result = underTest.findAll();
+        Iterable<Author> result = underTest.findAll();
         assertThat(result)
                 .hasSize(3)
                 .containsExactly(author, authorA, authorB);
@@ -70,11 +68,12 @@ public class AuthorDaoImplIntegrationTests {
     @Test
     public void testThatAuthorCanBeUpdated() {
         Author authorB = TestDataUtil.createTestAuthorB();
-        underTest.create(authorB);
+        underTest.save(authorB);
+        System.out.println(authorB);
         authorB.setName("Солнышко");
-        underTest.update(authorB.getId(), authorB);
+        underTest.save(authorB);
 
-        Optional<Author> result =  underTest.findOne(authorB.getId());
+        Optional<Author> result =  underTest.findById(authorB.getId());
         assertThat(result).isPresent();
         assertThat(result.get()).isEqualTo(authorB);
         System.out.println(result);
@@ -84,13 +83,13 @@ public class AuthorDaoImplIntegrationTests {
     @Test
     public void testThatAuthorCanBeDeleted() {
         Author author = TestDataUtil.createTestAuthor();
-        underTest.create(author);
-        underTest.delete(author.getId(), author);
+        underTest.save(author);
+        underTest.delete(author);
 
         Author authorA = TestDataUtil.createTestAuthorA();
-        underTest.create(authorA);
+        underTest.save(authorA);
 
-        List<Author> results = underTest.findAll();
+        Iterable<Author> results = underTest.findAll();
 //        assertThat(result).isNotPresent();
 //        assertThat(result.get()).isEqualTo(author);
         System.out.println(results);
