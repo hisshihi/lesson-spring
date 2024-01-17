@@ -1,6 +1,8 @@
 package com.lessonSpring.quickstar.domain;
 
 
+import jakarta.persistence.*;
+import jdk.jfr.Enabled;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,12 +31,25 @@ import lombok.NoArgsConstructor;
  * Это позволяет создавать экземпляры класса по частям, что может быть полезно в некоторых случаях.
  * */
 @Builder
+
+// Преобразовываем этот объект в сущность, чтобы использовать в jpa and hibernate
+
+// С помощью первой аннотации помечаем объект как сущность и его можно сохранить в бд
+@Entity
+
+// Указываем с какой таблицей сопоставляется эта сущность
+@Table(name = "books")
 public class Book {
 
+    @Id
     private String isbn;
 
     private String title;
 
-    private Long authorId;
+//    Указываем, что это ссылка на автора, который написал книгу, используем связть многие к одному и указываем, что вместе с книгой будет вывзываться также и автор
+//    И также указываем, с каким столбцом мы объеденям
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "author_id")
+    private Author author;
 
 }
