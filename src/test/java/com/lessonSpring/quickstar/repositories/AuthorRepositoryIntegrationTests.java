@@ -113,4 +113,21 @@ public class AuthorRepositoryIntegrationTests {
 
     }
 
+//    Метод поиска авторов по имени
+    @Test
+    public void testThatGetAuthorsWithSearchByName() {
+
+        Author author = TestDataUtil.createTestAuthor();
+        underTest.save(author);
+        Author authorA = TestDataUtil.createTestAuthorA();
+        authorA.setName("Денис");
+        underTest.save(authorA);
+        Author authorB = TestDataUtil.createTestAuthorB();
+        underTest.save(authorB);
+
+        Iterable<Author> result = underTest.searchByName("Денис");
+        assertThat(result).containsExactly(author, authorA);
+        System.out.println(result);
+    }
+
 }

@@ -11,4 +11,6 @@ public interface AuthorRepository extends CrudRepository<Author, Long> {
 
 
     Iterable<Author> ageLessThan(int age);
+
+    Iterable<Author> searchByName(String name);
 }
