@@ -95,4 +95,22 @@ public class AuthorRepositoryIntegrationTests {
         System.out.println(results);
     }
 
+//    Создаём свой метод для поиска авторов по возрасту
+    @Test
+    public void testThatGetAuthorsWithAgeLessThan() {
+        Author author = TestDataUtil.createTestAuthor();
+        underTest.save(author);
+        Author authorA = TestDataUtil.createTestAuthorA();
+        authorA.setAge(24);
+        underTest.save(authorA);
+        Author authorB = TestDataUtil.createTestAuthorB();
+        authorB.setAge(19);
+        underTest.save(authorB);
+
+        Iterable<Author> results = underTest.ageLessThan(22);
+        assertThat(results).containsExactly(author, authorB);
+        System.out.println(results);
+
+    }
+
 }
