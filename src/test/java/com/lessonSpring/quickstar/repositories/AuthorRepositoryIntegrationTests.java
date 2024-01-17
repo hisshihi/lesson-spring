@@ -84,7 +84,7 @@ public class AuthorRepositoryIntegrationTests {
     public void testThatAuthorCanBeDeleted() {
         Author author = TestDataUtil.createTestAuthor();
         underTest.save(author);
-        underTest.delete(author);
+        underTest.deleteById(author.getId());
 
         Author authorA = TestDataUtil.createTestAuthorA();
         underTest.save(authorA);
