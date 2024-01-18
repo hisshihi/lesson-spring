@@ -28,7 +28,22 @@ public class JacksonTest {
 //    Преобразовываем json в объект java
     @Test
     public void testThatObjectMapperCanCreateJavaObjectFromJsonObject() {
-        
+        Author author = TestDataUtil.createTestAuthor();
+        Book book = TestDataUtil.createTestBook(author);
+
+//        Сначала создаём объект json
+        String json = "{\"isbn\":\"786932\",\"title\":\"The Lord of the pick\",\"author\":{\"id\":1,\"name\":\"Денис\",\"age\":21}}";
+
+//        Теперь создаём объект ObjectMapper
+        final ObjectMapper objectMapper = new ObjectMapper();
+
+//        Теперь преобразовываем объект json в класс Book java
+        try {
+            Book result = objectMapper.readValue(json, Book.class);
+            assertThat(result).isEqualTo(book);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
