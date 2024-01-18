@@ -1,10 +1,10 @@
 package com.lessonSpring.quickstar.repositories;
 
-import com.lessonSpring.quickstar.domain.Book;
+import com.lessonSpring.quickstar.domain.entities.BookEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BookRepository extends CrudRepository<Book, String> {
+public interface BookRepository extends CrudRepository<BookEntity, String> {
 
 }

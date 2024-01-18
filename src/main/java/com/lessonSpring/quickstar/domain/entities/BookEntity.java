@@ -1,8 +1,8 @@
-package com.lessonSpring.quickstar.domain;
+package com.lessonSpring.quickstar.domain.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import jdk.jfr.Enabled;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,24 +32,31 @@ import lombok.NoArgsConstructor;
  * */
 @Builder
 
-
 // Преобразовываем этот объект в сущность, чтобы использовать в jpa and hibernate
 
-// С помощью первой аннотации помечаем объект как сущность
+// С помощью первой аннотации помечаем объект как сущность и его можно сохранить в бд
 @Entity
 
+// Игнорируем те значения, которые нам не известны и мы не ожидали, что они придут
+@JsonIgnoreProperties(ignoreUnknown = true)
+
 // Указываем с какой таблицей сопоставляется эта сущность
-@Table(name = "authors")
-public class Author {
+@Table(name = "books")
+public class BookEntity {
 
-
-    //    Указываем id и автоикремент, каждый раз, как будет создаваться новый автор его id будет увеличиватся на единицу
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "author_id_seq")
-    private Long id;
+    private String isbn;
 
-    private String name;
+    private String title;
 
-    private Integer age;
+//    Указываем, что это ссылка на автора, который написал книгу, используем связть многие к одному и указываем, что вместе с книгой будет вывзываться также и автор
+//    И также указываем, с каким столбцом мы объеденям
+//    Позволяет автоматически создать и перейти к автору
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "author_id")
+    private AuthorEntity authorEntity;
+
+//    Для того, чтобы преобразовать к примеру год выпуска просто в год нужно использвать
+//    @JsonProperty("year")
 
 }
