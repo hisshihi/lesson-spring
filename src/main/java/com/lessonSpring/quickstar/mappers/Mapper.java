@@ -1,3 +1,5 @@
+// Интерфейс создания картогрофа
+
 package com.lessonSpring.quickstar.mappers;
 
 public interface Mapper<A, B> {
