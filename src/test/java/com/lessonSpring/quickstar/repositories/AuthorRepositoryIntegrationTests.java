@@ -130,4 +130,21 @@ public class AuthorRepositoryIntegrationTests {
         System.out.println(result);
     }
 
+//    Метод для поиска авторов у которых возраст больше определённого
+    @Test
+    public void testThatGetAuthorsWithAgeGreaterThan() {
+        Author author = TestDataUtil.createTestAuthor();
+        underTest.save(author);
+        Author authorA = TestDataUtil.createTestAuthorA();
+        authorA.setAge(24);
+        underTest.save(authorA);
+        Author authorB = TestDataUtil.createTestAuthorB();
+        authorB.setAge(19);
+        underTest.save(authorB);
+
+        Iterable<Author> result = underTest.findAuthorsWithAgeGreaterThat(22);
+
+        assertThat(result).containsExactly(authorA);
+    }
+
 }
