@@ -1,6 +1,7 @@
 package com.lessonSpring.quickstar.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jdk.jfr.Enabled;
 import lombok.AllArgsConstructor;
@@ -37,6 +38,9 @@ import lombok.NoArgsConstructor;
 // С помощью первой аннотации помечаем объект как сущность и его можно сохранить в бд
 @Entity
 
+// Игнорируем те значения, которые нам не известны и мы не ожидали, что они придут
+@JsonIgnoreProperties(ignoreUnknown = true)
+
 // Указываем с какой таблицей сопоставляется эта сущность
 @Table(name = "books")
 public class Book {
@@ -52,5 +56,8 @@ public class Book {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "author_id")
     private Author author;
+
+//    Для того, чтобы преобразовать к примеру год выпуска просто в год нужно использвать
+//    @JsonProperty("year")
 
 }
