@@ -32,7 +32,7 @@ public class JacksonTest {
         Book book = TestDataUtil.createTestBook(author);
 
 //        Сначала создаём объект json
-        String json = "{\"isbn\":\"786932\",\"title\":\"The Lord of the pick\",\"author\":{\"id\":1,\"name\":\"Денис\",\"age\":21}}";
+        String json = "{\"foo\":\"bar\", \"isbn\":\"786932\",\"title\":\"The Lord of the pick\",\"author\":{\"id\":1,\"name\":\"Денис\",\"age\":21}}";
 
 //        Теперь создаём объект ObjectMapper
         final ObjectMapper objectMapper = new ObjectMapper();
