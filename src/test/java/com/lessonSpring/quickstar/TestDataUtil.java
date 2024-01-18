@@ -14,7 +14,7 @@ public final class TestDataUtil {
     public static Author createTestAuthor() {
         return Author.builder()
                 .id(1L)
-                .name("Hiss")
+                .name("Денис")
                 .age(21)
                 .build();
     }
