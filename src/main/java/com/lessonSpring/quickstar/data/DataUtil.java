@@ -1,13 +1,11 @@
-package com.lessonSpring.quickstar;
+package com.lessonSpring.quickstar.data;
 
-import com.lessonSpring.quickstar.domain.dto.AuthorDto;
-import com.lessonSpring.quickstar.domain.dto.BookDto;
 import com.lessonSpring.quickstar.domain.entities.AuthorEntity;
 import com.lessonSpring.quickstar.domain.entities.BookEntity;
 
-public final class TestDataUtil {
+public class DataUtil {
 
-    private TestDataUtil() {
+    private DataUtil() {
 
     }
 
@@ -35,19 +33,11 @@ public final class TestDataUtil {
                 .build();
     }
 
-    public static BookEntity createTestBookEntity(final AuthorEntity authorEntity) {
+    public static BookEntity createTestBook(final AuthorEntity authorEntity) {
         return BookEntity.builder()
                 .isbn("786932")
                 .title("The Lord of the pick")
                 .authorEntity(authorEntity)
-                .build();
-    }
-
-    public static BookDto createTestBook(final AuthorDto author) {
-        return BookDto.builder()
-                .isbn("786932")
-                .title("The Lord of the pick")
-                .authorDto(author)
                 .build();
     }
 
