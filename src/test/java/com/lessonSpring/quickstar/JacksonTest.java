@@ -14,7 +14,7 @@ public class JacksonTest {
     public void testThatObjectMapperCanCreateJsonFromJavaObject() {
         ObjectMapper objectMapper = new ObjectMapper();
         AuthorEntity authorEntity = TestDataUtil.createTestAuthor();
-        BookEntity bookEntity = TestDataUtil.createTestBook(authorEntity);
+        BookEntity bookEntity = TestDataUtil.createTestBookEntity(authorEntity);
 
 //        Преобразовываем объект в формат json
         try {
@@ -29,7 +29,7 @@ public class JacksonTest {
     @Test
     public void testThatObjectMapperCanCreateJavaObjectFromJsonObject() {
         AuthorEntity authorEntity = TestDataUtil.createTestAuthor();
-        BookEntity bookEntity = TestDataUtil.createTestBook(authorEntity);
+        BookEntity bookEntity = TestDataUtil.createTestBookEntity(authorEntity);
 
 //        Сначала создаём объект json
         String json = "{\"foo\":\"bar\", \"isbn\":\"786932\",\"title\":\"The Lord of the pick\",\"author\":{\"id\":1,\"name\":\"Денис\",\"age\":21}}";

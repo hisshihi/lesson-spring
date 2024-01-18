@@ -1,13 +1,12 @@
 package com.lessonSpring.quickstar.mappers.impl;
 
-import com.lessonSpring.quickstar.domain.dto.AuthorDto;
 import com.lessonSpring.quickstar.domain.entities.AuthorEntity;
 import com.lessonSpring.quickstar.mappers.Mapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AuthorMapper implements Mapper<AuthorEntity, AuthorDto> {
+public class AuthorMapper implements Mapper<AuthorEntity, com.lessonSpring.quickstar.domain.dto.AuthorDto> {
 
     private ModelMapper modelMapper;
 
@@ -16,12 +15,12 @@ public class AuthorMapper implements Mapper<AuthorEntity, AuthorDto> {
     }
 
     @Override
-    public AuthorDto mapTo(AuthorEntity authorEntity) {
-        return modelMapper.map(authorEntity, AuthorDto.class);
+    public com.lessonSpring.quickstar.domain.dto.AuthorDto mapTo(AuthorEntity authorEntity) {
+        return modelMapper.map(authorEntity, com.lessonSpring.quickstar.domain.dto.AuthorDto.class);
     }
 
     @Override
-    public AuthorEntity mapFrom(AuthorDto authorDto) {
+    public AuthorEntity mapFrom(com.lessonSpring.quickstar.domain.dto.AuthorDto authorDto) {
         return modelMapper.map(authorDto, AuthorEntity.class);
     }
 }

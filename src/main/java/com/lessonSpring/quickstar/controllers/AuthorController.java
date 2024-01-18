@@ -1,7 +1,6 @@
 // Слой представления
 package com.lessonSpring.quickstar.controllers;
 
-import com.lessonSpring.quickstar.domain.dto.AuthorDto;
 import com.lessonSpring.quickstar.domain.entities.AuthorEntity;
 import com.lessonSpring.quickstar.mappers.Mapper;
 import com.lessonSpring.quickstar.services.AuthorService;
@@ -17,16 +16,16 @@ public class AuthorController {
 //    Создаём экземпляр интерфейса, чтобы использовать его методы
     private AuthorService authorService;
 
-    private Mapper<AuthorEntity, AuthorDto> authorMapper;
+    private Mapper<AuthorEntity, com.lessonSpring.quickstar.domain.dto.AuthorDto> authorMapper;
 
-    public AuthorController(AuthorService authorService, Mapper<AuthorEntity, AuthorDto> authorMapper) {
+    public AuthorController(AuthorService authorService, Mapper<AuthorEntity, com.lessonSpring.quickstar.domain.dto.AuthorDto> authorMapper) {
         this.authorService = authorService;
         this.authorMapper = authorMapper;
     }
 
 //    Создание нового автора
     @PostMapping(path = "/authors")
-    public ResponseEntity<AuthorDto> createAuthor(@RequestBody AuthorDto author) {
+    public ResponseEntity<com.lessonSpring.quickstar.domain.dto.AuthorDto> createAuthor(@RequestBody com.lessonSpring.quickstar.domain.dto.AuthorDto author) {
         AuthorEntity authorEntity = authorMapper.mapFrom(author);
         AuthorEntity savedAuthorEntity = authorService.createAuthor(authorEntity);
         return new ResponseEntity<>( authorMapper.mapTo(savedAuthorEntity), HttpStatus.CREATED);
