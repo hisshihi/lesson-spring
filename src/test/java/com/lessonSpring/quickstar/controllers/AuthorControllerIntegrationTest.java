@@ -102,6 +102,29 @@ public class AuthorControllerIntegrationTest {
         );
     }
 
-    
+    @Test
+    public void testThatListAuthorsNameReturnsHttpStatus200() throws Exception {
+        AuthorEntity authorEntity = TestDataUtil.createTestAuthor();
+        authorService.createAuthor(authorEntity);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/authors/" + authorEntity.getName())
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void testThatListAuthorsReturnsListOfAuthorsByName() throws Exception {
+        AuthorEntity authorEntity = TestDataUtil.createTestAuthor();
+        authorService.createAuthor(authorEntity);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/authors/" + authorEntity.getName())
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(MockMvcResultMatchers.jsonPath("$[0].id").isNumber()
+        ).andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Денис")
+        ).andExpect(MockMvcResultMatchers.jsonPath("$[0].age").value(21)
+        );
+    }
 
 }
