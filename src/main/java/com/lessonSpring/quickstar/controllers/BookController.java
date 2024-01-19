@@ -34,7 +34,7 @@ public class BookController {
         return new ResponseEntity<>(savedBookDto, HttpStatus.CREATED);
     }
 
-//    Отображение всех книг
+    //    Отображение всех книг
     @GetMapping("/books")
     public List<BookDto> listBooks() {
         List<BookEntity> books = bookService.findAll();
