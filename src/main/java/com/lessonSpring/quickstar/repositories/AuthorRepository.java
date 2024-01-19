@@ -1,6 +1,6 @@
 package com.lessonSpring.quickstar.repositories;
 
-import com.lessonSpring.quickstar.domain.Author;
+import com.lessonSpring.quickstar.domain.entities.AuthorEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -8,12 +8,12 @@ import org.springframework.stereotype.Repository;
 // Также указываем, что этот класс является репозиторием
 @Repository
 // Наследуемся от репозитория crud и указываем что туда помещяем и его тип id
-public interface AuthorRepository extends CrudRepository<Author, Long> {
+public interface AuthorRepository extends CrudRepository<AuthorEntity, Long> {
 
 
-    Iterable<Author> ageLessThan(int age);
+    Iterable<AuthorEntity> ageLessThan(int age);
 
-    Iterable<Author> searchByName(String name);
+    Iterable<AuthorEntity> searchByName(String name);
 
     /*
     * Создаём пользовательский запрос
@@ -23,6 +23,6 @@ public interface AuthorRepository extends CrudRepository<Author, Long> {
      * where a.age > ?1: этот оператор фильтрует результаты запроса, включая только тех авторов,
      *  чей возраст больше, чем значение, заданное в качестве параметра ?1.
     * */
-    @Query("SELECT author FROM Author author where author.age > ?1")
-    Iterable<Author> findAuthorsWithAgeGreaterThat(int age);
+    @Query("SELECT author FROM AuthorEntity author where author.age > ?1")
+    Iterable<AuthorEntity> findAuthorsWithAgeGreaterThat(int age);
 }

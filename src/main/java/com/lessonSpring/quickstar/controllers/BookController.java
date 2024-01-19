@@ -1,37 +1,44 @@
 package com.lessonSpring.quickstar.controllers;
 
-import com.lessonSpring.quickstar.data.DataUtil;
-import com.lessonSpring.quickstar.domain.Author;
-import com.lessonSpring.quickstar.domain.Book;
-import lombok.Data;
-import lombok.extern.java.Log;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import com.lessonSpring.quickstar.domain.dto.BookDto;
+import com.lessonSpring.quickstar.domain.entities.BookEntity;
+import com.lessonSpring.quickstar.mappers.Mapper;
+import com.lessonSpring.quickstar.services.BookService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
-@Log
 public class BookController {
 
-    Author author = DataUtil.createTestAuthor();
+    private Mapper<BookEntity, BookDto> bookMapper;
 
-//    Получение книги
-    @GetMapping(path = "/books")
-    public Book retrieveBook() {
-        return Book.builder()
-                .isbn("235195")
-                .title("My Story")
-                .author(author)
-                .build();
+    private BookService bookService;
+
+    public BookController(Mapper<BookEntity, BookDto> bookMapper, BookService bookService) {
+        this.bookMapper = bookMapper;
+        this.bookService = bookService;
     }
 
-    @PostMapping(path = "/books")
-    public Book createBook(@RequestBody final Book book) {
-        log.info("Got book: " + book.toString());
-        return book;
+    @PutMapping("/books/{isbn}")
+    public ResponseEntity<BookDto> createBook(@PathVariable("isbn") String isbn, @RequestBody BookDto bookDto) {
+
+//        Из bookEntity отдаём данные в bookDto
+        BookEntity bookEntity = bookMapper.mapFrom(bookDto);
+        BookEntity savedBookEntity = bookService.createBook(isbn, bookEntity);
+//        Отображаем данные сохранённой книги
+        BookDto savedBookDto = bookMapper.mapTo(savedBookEntity);
+        return new ResponseEntity<>(savedBookDto, HttpStatus.CREATED);
+    }
+
+    //    Отображение всех книг
+    @GetMapping("/books")
+    public List<BookDto> listBooks() {
+        List<BookEntity> books = bookService.findAll();
+        return books.stream().map(bookMapper::mapTo).collect(Collectors.toList());
     }
 
 }
