@@ -7,10 +7,7 @@ import com.lessonSpring.quickstar.mappers.Mapper;
 import com.lessonSpring.quickstar.services.AuthorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,6 +40,13 @@ public class AuthorController {
         return authors.stream()
                 .map(authorMapper::mapTo)
                 .collect(Collectors.toList());
+    }
+
+//    Контроллер для поиска автора по имени
+    @GetMapping(path = "/authors/{name}")
+    public List<AuthorDto> findAuthorsByName(@PathVariable("name") String name, @RequestBody AuthorDto authorDto) {
+        List<AuthorEntity> authors = authorService.findByName(name);
+        return authors.stream().map(authorMapper::mapTo).collect(Collectors.toList());
     }
 
 }

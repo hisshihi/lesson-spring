@@ -1,6 +1,7 @@
 // Уровень сервиса
 package com.lessonSpring.quickstar.services.impl;
 
+import com.lessonSpring.quickstar.domain.dto.AuthorDto;
 import com.lessonSpring.quickstar.domain.entities.AuthorEntity;
 import com.lessonSpring.quickstar.repositories.AuthorRepository;
 import com.lessonSpring.quickstar.services.AuthorService;
@@ -33,4 +34,11 @@ public class AuthorServiceImpl implements AuthorService {
         * */
         return StreamSupport.stream(authorRepository.findAll().spliterator(), false).collect(Collectors.toList());
     }
+
+    @Override
+    public List<AuthorEntity> findByName(String name) {
+        return StreamSupport.stream(authorRepository.searchByName(name).spliterator(), false).collect(Collectors.toList());
+    }
+
+
 }
