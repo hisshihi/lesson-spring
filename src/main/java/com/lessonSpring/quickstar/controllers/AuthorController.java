@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -43,12 +44,20 @@ public class AuthorController {
     }
 
 //    Контроллер для поиска автора по имени
-    @GetMapping(path = "/authors/{name}")
+    @GetMapping(path = "/authors/name/{name}")
     public List<AuthorDto> findAuthorsByName(@PathVariable("name") String name) {
         List<AuthorEntity> authors = authorService.findByName(name);
         return authors.stream().map(authorMapper::mapTo).collect(Collectors.toList());
     }
 
-
+//    Чтение всех авторов по id
+    @GetMapping(path = "/authors/{id}")
+    public ResponseEntity<AuthorDto> getAuthor(@PathVariable("id") Long id) {
+        Optional<AuthorEntity> foundAuthor = authorService.findOne(id);
+        return foundAuthor.map(authorEntity -> {
+            AuthorDto authorDto = authorMapper.mapTo(authorEntity);
+            return new ResponseEntity(authorDto, HttpStatus.OK);
+        }).orElse(new ResponseEntity(HttpStatus.NOT_FOUND));
+    }
 
 }

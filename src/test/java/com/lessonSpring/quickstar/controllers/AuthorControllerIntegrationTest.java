@@ -108,7 +108,7 @@ public class AuthorControllerIntegrationTest {
         authorService.createAuthor(authorEntity);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.get("/authors/" + authorEntity.getName())
+                MockMvcRequestBuilders.get("/authors/name/" + authorEntity.getName())
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(MockMvcResultMatchers.status().isOk());
     }
@@ -119,7 +119,7 @@ public class AuthorControllerIntegrationTest {
         authorService.createAuthor(authorEntity);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.get("/authors/" + authorEntity.getName())
+                MockMvcRequestBuilders.get("/authors/name/" + authorEntity.getName())
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(MockMvcResultMatchers.jsonPath("$[0].id").isNumber()
         ).andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Денис")
