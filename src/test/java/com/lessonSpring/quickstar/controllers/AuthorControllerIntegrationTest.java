@@ -91,7 +91,7 @@ public class AuthorControllerIntegrationTest {
     @Test
     public void testThatListAuthorsReturnsListOfAuthors() throws Exception {
         AuthorEntity authorEntity = TestDataUtil.createTestAuthor();
-        authorService.createAuthor(authorEntity);
+        authorService.save(authorEntity);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/authors")
@@ -105,7 +105,7 @@ public class AuthorControllerIntegrationTest {
     @Test
     public void testThatListAuthorsNameReturnsHttpStatus200() throws Exception {
         AuthorEntity authorEntity = TestDataUtil.createTestAuthor();
-        authorService.createAuthor(authorEntity);
+        authorService.save(authorEntity);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/authors/name/" + authorEntity.getName())
@@ -116,7 +116,7 @@ public class AuthorControllerIntegrationTest {
     @Test
     public void testThatListAuthorsReturnsListOfAuthorsByName() throws Exception {
         AuthorEntity authorEntity = TestDataUtil.createTestAuthor();
-        authorService.createAuthor(authorEntity);
+        authorService.save(authorEntity);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/authors/name/" + authorEntity.getName())
@@ -130,7 +130,7 @@ public class AuthorControllerIntegrationTest {
     @Test
     public void testThatGetAuthorsReturnsHttpStatus200WhenAuthorExist() throws Exception {
         AuthorEntity authorEntity = TestDataUtil.createTestAuthor();
-        authorService.createAuthor(authorEntity);
+        authorService.save(authorEntity);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/authors/1")
@@ -141,7 +141,7 @@ public class AuthorControllerIntegrationTest {
     @Test
     public void testThatGetAuthorsReturnsHttpStatus404WhenAuthorExist() throws Exception {
         AuthorEntity authorEntity = TestDataUtil.createTestAuthor();
-        authorService.createAuthor(authorEntity);
+        authorService.save(authorEntity);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/authors/99")
@@ -152,7 +152,7 @@ public class AuthorControllerIntegrationTest {
     @Test
     public void testThatGetAuthorsReturnsAuthorsById() throws Exception {
         AuthorEntity authorEntity = TestDataUtil.createTestAuthor();
-        authorService.createAuthor(authorEntity);
+        authorService.save(authorEntity);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/authors/1")

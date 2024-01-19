@@ -1,6 +1,7 @@
 package com.lessonSpring.quickstar.controllers;
 
 import com.lessonSpring.quickstar.domain.dto.BookDto;
+import com.lessonSpring.quickstar.domain.entities.AuthorEntity;
 import com.lessonSpring.quickstar.domain.entities.BookEntity;
 import com.lessonSpring.quickstar.mappers.Mapper;
 import com.lessonSpring.quickstar.services.BookService;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -39,6 +41,16 @@ public class BookController {
     public List<BookDto> listBooks() {
         List<BookEntity> books = bookService.findAll();
         return books.stream().map(bookMapper::mapTo).collect(Collectors.toList());
+    }
+
+//    Чтение одной книги
+    @GetMapping("/books/{isbn}")
+    public ResponseEntity<BookDto> getBook(@PathVariable("isbn") String isbn) {
+        Optional<BookEntity> findBook = bookService.findOne(isbn);
+        return findBook.map(bookEntity -> {
+            BookDto bookDto = bookMapper.mapTo(bookEntity);
+            return new ResponseEntity(bookDto, HttpStatus.OK);
+        }).orElse(new ResponseEntity(HttpStatus.NOT_FOUND));
     }
 
 }
