@@ -68,6 +68,7 @@ public class AuthorController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
+//        Устанавливаем id, чтобы можно было полностью обновить автора
         authorDto.setId(id);
         AuthorEntity authorEntity = authorMapper.mapFrom(authorDto);
 //        Усовершенствуем текущий метод сохранения для того, чтобы можно было полностью обновлять автора

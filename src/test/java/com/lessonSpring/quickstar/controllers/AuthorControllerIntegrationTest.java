@@ -2,6 +2,7 @@ package com.lessonSpring.quickstar.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lessonSpring.quickstar.TestDataUtil;
+import com.lessonSpring.quickstar.domain.dto.AuthorDto;
 import com.lessonSpring.quickstar.domain.entities.AuthorEntity;
 import com.lessonSpring.quickstar.services.AuthorService;
 import org.junit.jupiter.api.Test;
@@ -161,6 +162,59 @@ public class AuthorControllerIntegrationTest {
         ).andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Денис")
         ).andExpect(MockMvcResultMatchers.jsonPath("$.age").value(21)
         );
+    }
+
+    //    Тест для првоерки отправки кода 404 при полном обновлении автора
+    @Test
+    public void testThatFullUpdateAuthorsReturnsHttpStatus404WhenNoAuthorExist() throws Exception {
+        AuthorDto authorDto = TestDataUtil.createTestAuthorDto();
+        String authorDtoJson = objectMapper.writeValueAsString(authorDto);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.put("/authors/update/99")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(authorDtoJson)
+        ).andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+    //    Тест для проверки отправки кода 200 при полном обновлении автора
+    @Test
+    public void testThatFullUpdateAuthorsReturnsHttpStatus200WhenAuthorExist() throws Exception {
+        AuthorEntity testAuthorEntity = TestDataUtil.createTestAuthor();
+        AuthorEntity savedAuthorEntity = authorService.save(testAuthorEntity);
+
+        AuthorDto authorDto = TestDataUtil.createTestAuthorDto();
+        String authorDtoJson = objectMapper.writeValueAsString(authorDto);
+
+        System.out.println(savedAuthorEntity);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.put("/authors/update/" + savedAuthorEntity.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(authorDtoJson)
+        ).andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    //    Проверяем, точн ли обновляется атвор
+    @Test
+    public void testThatFullUpdateUpdatesExistingAuthor() throws Exception {
+//        Создаём тестового автора
+        AuthorEntity authorEntity = TestDataUtil.createTestAuthor();
+        AuthorEntity savedAuthorEntity = authorService.save(authorEntity);
+
+        AuthorEntity authorDto = TestDataUtil.createTestAuthorA();
+        authorDto.setId(savedAuthorEntity.getId());
+
+        String authorJson = objectMapper.writeValueAsString(authorDto);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.put("/authors/update/" + savedAuthorEntity.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(authorJson)
+        )
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(savedAuthorEntity.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(authorDto.getName()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(authorDto.getAge()));
     }
 
 }
