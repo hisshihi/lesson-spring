@@ -19,7 +19,7 @@ public class JacksonTest {
 //        Преобразовываем объект в формат json
         try {
             String result = objectMapper.writeValueAsString(bookEntity);
-            assertThat(result).isEqualTo("{\"isbn\":\"786932\",\"title\":\"The Lord of the pick\",\"author\":{\"id\":1,\"name\":\"Денис\",\"age\":21}}");
+            assertThat(result).isEqualTo("{\"isbn\":\"786932\",\"title\":\"The Lord of the pick\",\"authorEntity\":{\"id\":1,\"name\":\"Денис\",\"age\":21}}");
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -32,7 +32,7 @@ public class JacksonTest {
         BookEntity bookEntity = TestDataUtil.createTestBookEntity(authorEntity);
 
 //        Сначала создаём объект json
-        String json = "{\"foo\":\"bar\", \"isbn\":\"786932\",\"title\":\"The Lord of the pick\",\"author\":{\"id\":1,\"name\":\"Денис\",\"age\":21}}";
+        String json = "{\"foo\":\"bar\", \"isbn\":\"786932\",\"title\":\"The Lord of the pick\",\"authorEntity\":{\"id\":1,\"name\":\"Денис\",\"age\":21}}";
 
 //        Теперь создаём объект ObjectMapper
         final ObjectMapper objectMapper = new ObjectMapper();
