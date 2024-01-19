@@ -25,6 +25,7 @@ public class BookController {
         this.bookService = bookService;
     }
 
+//    Обновляем метод для того, чтобы можно было создавать и обновлять книги
     @PutMapping("/books/{isbn}")
     public ResponseEntity<BookDto> createBook(@PathVariable("isbn") String isbn, @RequestBody BookDto bookDto) {
 

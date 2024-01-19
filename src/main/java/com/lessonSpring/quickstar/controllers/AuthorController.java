@@ -61,7 +61,7 @@ public class AuthorController {
     }
 
     //    Метод полного обновления автора
-    @PutMapping(path = "authors/update/{id}")
+    @PutMapping(path = "authors/{id}")
     public ResponseEntity<AuthorDto> fullUpdateAuthor(@PathVariable("id") Long id, @RequestBody AuthorDto authorDto) {
 //        Проверяем, существует ли автор
         if (!authorService.isExists(id)) {
