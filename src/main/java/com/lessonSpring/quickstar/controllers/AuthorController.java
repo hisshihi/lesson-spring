@@ -44,7 +44,7 @@ public class AuthorController {
 
 //    Контроллер для поиска автора по имени
     @GetMapping(path = "/authors/{name}")
-    public List<AuthorDto> findAuthorsByName(@PathVariable("name") String name, @RequestBody AuthorDto authorDto) {
+    public List<AuthorDto> findAuthorsByName(@PathVariable("name") String name) {
         List<AuthorEntity> authors = authorService.findByName(name);
         return authors.stream().map(authorMapper::mapTo).collect(Collectors.toList());
     }
