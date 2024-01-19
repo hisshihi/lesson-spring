@@ -1,7 +1,6 @@
 package com.lessonSpring.quickstar.controllers;
 
 import com.lessonSpring.quickstar.domain.dto.BookDto;
-import com.lessonSpring.quickstar.domain.entities.AuthorEntity;
 import com.lessonSpring.quickstar.domain.entities.BookEntity;
 import com.lessonSpring.quickstar.mappers.Mapper;
 import com.lessonSpring.quickstar.services.BookService;
@@ -27,14 +26,22 @@ public class BookController {
 
 //    Обновляем метод для того, чтобы можно было создавать и обновлять книги
     @PutMapping("/books/{isbn}")
-    public ResponseEntity<BookDto> createBook(@PathVariable("isbn") String isbn, @RequestBody BookDto bookDto) {
-
+    public ResponseEntity<BookDto> createUpdateBook(@PathVariable("isbn") String isbn, @RequestBody BookDto bookDto) {
 //        Из bookEntity отдаём данные в bookDto
         BookEntity bookEntity = bookMapper.mapFrom(bookDto);
-        BookEntity savedBookEntity = bookService.createBook(isbn, bookEntity);
+
+        boolean bookExists = bookService.isExist(isbn);
+
+        BookEntity savedBookEntity = bookService.createUpdateBook(isbn, bookEntity);
 //        Отображаем данные сохранённой книги
         BookDto savedBookDto = bookMapper.mapTo(savedBookEntity);
-        return new ResponseEntity<>(savedBookDto, HttpStatus.CREATED);
+//        Для начала проверяем, существует ли книга, если да, то обновляем, если нет, то создаём
+        if (bookExists) {
+//            Обновляем книгу
+            return new ResponseEntity<>(savedBookDto, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(savedBookDto, HttpStatus.CREATED);
+        }
     }
 
     //    Отображение всех книг

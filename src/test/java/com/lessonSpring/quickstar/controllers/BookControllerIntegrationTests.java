@@ -1,6 +1,5 @@
 package com.lessonSpring.quickstar.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lessonSpring.quickstar.TestDataUtil;
 import com.lessonSpring.quickstar.domain.dto.BookDto;
@@ -86,7 +85,7 @@ public class BookControllerIntegrationTests {
         AuthorEntity authorEntity = TestDataUtil.createTestAuthor();
 
         BookEntity bookEntity = TestDataUtil.createTestBookEntity(authorEntity);
-        bookService.createBook(bookEntity.getIsbn(), bookEntity);
+        bookService.createUpdateBook(bookEntity.getIsbn(), bookEntity);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/books")
@@ -99,7 +98,7 @@ public class BookControllerIntegrationTests {
     @Test
     public void testThatGetBookReturnsHttpStatus200OkWhenBookExist() throws Exception {
         BookEntity bookEntity = TestDataUtil.createTestBookEntity(null);
-        bookService.createBook(bookEntity.getIsbn(), bookEntity);
+        bookService.createUpdateBook(bookEntity.getIsbn(), bookEntity);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/books/" + bookEntity.getIsbn())
