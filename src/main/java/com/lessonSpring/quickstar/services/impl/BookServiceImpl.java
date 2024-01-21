@@ -1,5 +1,6 @@
 package com.lessonSpring.quickstar.services.impl;
 
+import com.lessonSpring.quickstar.domain.dto.BookDto;
 import com.lessonSpring.quickstar.domain.entities.BookEntity;
 import com.lessonSpring.quickstar.repositories.BookRepository;
 import com.lessonSpring.quickstar.services.BookService;
@@ -20,7 +21,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookEntity createBook(String isbn, BookEntity bookEntity) {
+    public BookEntity createUpdateBook(String isbn, BookEntity bookEntity) {
 //        Устанавливаем isbn для того, чтобы избежать проблем
         bookEntity.setIsbn(isbn);
         return bookRepository.save(bookEntity);
@@ -35,4 +36,11 @@ public class BookServiceImpl implements BookService {
     public Optional<BookEntity> findOne(String isbn) {
         return bookRepository.findById(isbn);
     }
+
+    @Override
+    public boolean isExist(String isbn) {
+        return bookRepository.existsById(isbn);
+    }
+
+
 }
