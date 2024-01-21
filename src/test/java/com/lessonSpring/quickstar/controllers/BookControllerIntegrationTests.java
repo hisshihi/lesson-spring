@@ -40,10 +40,15 @@ public class BookControllerIntegrationTests {
         this.objectMapper = new ObjectMapper();
     }
 
+
+    //    Проверка работает ли обновление или создание данных
     @Test
-    public void testThatCreateBookReturnsHttpStatus201Created() throws Exception {
+    public void testThatCreateBookReturnsHttpStatus200Ok() throws Exception {
+        BookEntity bookEntity = TestDataUtil.createTestBookEntity(null);
+        BookEntity savedBookEntity = bookService.createUpdateBook(bookEntity.getIsbn(), bookEntity);
 
         BookDto bookDto = TestDataUtil.createTestBook(null);
+        bookDto.setIsbn(savedBookEntity.getIsbn());
         String createBookJson = objectMapper.writeValueAsString(bookDto);
 
         mockMvc.perform(
@@ -51,14 +56,18 @@ public class BookControllerIntegrationTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(createBookJson)
         ).andExpect(
-                MockMvcResultMatchers.status().isCreated()
+                MockMvcResultMatchers.status().isOk()
         );
 
     }
 
     @Test
-    public void testThatCreateBookSuccessfullyReturnsSavedAuthor() throws Exception {
+    public void testThatUpdateBookReturnsUpdatedBook() throws Exception {
+        BookEntity bookEntity = TestDataUtil.createTestBookEntity(null);
+        BookEntity savedBookEntity = bookService.createUpdateBook(bookEntity.getIsbn(), bookEntity);
+
         BookDto bookDto = TestDataUtil.createTestBook(null);
+        bookDto.setIsbn(savedBookEntity.getIsbn());
         String createBookJson = objectMapper.writeValueAsString(bookDto);
 
         mockMvc.perform(
@@ -66,9 +75,9 @@ public class BookControllerIntegrationTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(createBookJson)
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.isbn").value(bookDto.getIsbn())
+                MockMvcResultMatchers.jsonPath("$.isbn").value("786932")
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.title").value(bookDto.getTitle())
+                MockMvcResultMatchers.jsonPath("$.title").value("The Lord of the pick")
         );
     }
 
@@ -113,6 +122,8 @@ public class BookControllerIntegrationTests {
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(MockMvcResultMatchers.status().isNotFound());
     }
+
+
 
 
 
