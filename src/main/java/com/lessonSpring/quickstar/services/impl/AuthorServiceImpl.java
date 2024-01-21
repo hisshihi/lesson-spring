@@ -56,6 +56,11 @@ public class AuthorServiceImpl implements AuthorService {
         authorEntity.setId(id);
 
         return authorRepository.findById(id).map(existingAuthor -> {
+            /*
+            * Optional.ofNullable(authorEntity.getName()).ifPresent(existingAuthor::setName);
+			*  Эта инструкция проверяет, не равно ли поле name объекта authorEntity null.
+			*  Если оно не равно null, то метод setName() вызывается с параметром, равным значению поля name объекта authorEntity.
+            * */
             Optional.ofNullable(authorEntity.getName()).ifPresent(existingAuthor::setName);
             Optional.ofNullable(authorEntity.getAge()).ifPresent(existingAuthor::setAge);
             return authorRepository.save(existingAuthor);
