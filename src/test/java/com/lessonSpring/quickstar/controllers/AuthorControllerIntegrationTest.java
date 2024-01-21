@@ -189,7 +189,7 @@ public class AuthorControllerIntegrationTest {
         System.out.println(authorDto);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.put("/authors/update/" + savedAuthorEntity.getId())
+                MockMvcRequestBuilders.put("/authors/" + savedAuthorEntity.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(authorDtoJson)
         ).andExpect(MockMvcResultMatchers.status().isOk());
@@ -208,7 +208,7 @@ public class AuthorControllerIntegrationTest {
         String authorJson = objectMapper.writeValueAsString(authorDto);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.put("/authors/update/" + savedAuthorEntity.getId())
+                MockMvcRequestBuilders.put("/authors/" + savedAuthorEntity.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(authorJson)
         )
