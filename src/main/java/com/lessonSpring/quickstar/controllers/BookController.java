@@ -61,4 +61,17 @@ public class BookController {
         }).orElse(new ResponseEntity(HttpStatus.NOT_FOUND));
     }
 
+//    Частичное обновление книги
+    @PatchMapping("/books/{isbn}")
+    public ResponseEntity<BookDto> patrialPathBook(@PathVariable("isbn") String isbn, @RequestBody BookDto bookDto) {
+        boolean bookExists = bookService.isExist(isbn);
+        if (!bookExists) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        // Преобразовываем объект dto в сущность для работы с ним
+        BookEntity bookEntity = bookMapper.mapFrom(bookDto);
+        BookEntity updatedBookEntity = bookService.patrialUpdate(isbn, bookEntity);
+        return new ResponseEntity<>(bookMapper.mapTo(updatedBookEntity), HttpStatus.OK);
+
+    }
+
 }

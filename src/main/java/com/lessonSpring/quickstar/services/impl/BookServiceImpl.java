@@ -42,5 +42,16 @@ public class BookServiceImpl implements BookService {
         return bookRepository.existsById(isbn);
     }
 
+    @Override
+    public BookEntity patrialUpdate(String isbn, BookEntity bookEntity) {
+//        Указываем isbn для book, чтобы убедиться, что это именно тот book
+        bookEntity.setIsbn(isbn);
+        return bookRepository.findById(isbn).map(existingBook -> {
+//            Проверяем, не равно ли title null, если не равно, тогда устанавливаем тот title который пришёл
+            Optional.ofNullable(bookEntity.getTitle()).ifPresent(existingBook::setTitle);
+            return bookRepository.save(existingBook);
+        }).orElseThrow(() -> new RuntimeException("Книга не существует"));
+    }
+
 
 }

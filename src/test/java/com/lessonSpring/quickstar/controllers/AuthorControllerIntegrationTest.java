@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lessonSpring.quickstar.TestDataUtil;
 import com.lessonSpring.quickstar.domain.dto.AuthorDto;
 import com.lessonSpring.quickstar.domain.entities.AuthorEntity;
+import com.lessonSpring.quickstar.domain.entities.BookEntity;
 import com.lessonSpring.quickstar.services.AuthorService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -216,6 +217,44 @@ public class AuthorControllerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(authorDto.getName()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(authorDto.getAge()));
         System.out.println(authorDto);
+    }
+
+    @Test
+    public void testThanPartialUpdateExistingAuthorReturnsHttpStatus200Ok() throws Exception {
+        AuthorEntity testAuthorEntity = TestDataUtil.createTestAuthor();
+        AuthorEntity savedAuthorEntity = authorService.save(testAuthorEntity);
+
+        AuthorDto authorDto = TestDataUtil.createTestAuthorDto();
+        authorDto.setName("UPDATED");
+        String authorDtoJson = objectMapper.writeValueAsString(authorDto);
+
+        System.out.println(authorDto);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.patch("/authors/" + savedAuthorEntity.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(authorDtoJson)
+        ).andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void testThanPartialUpdateExistingAuthorReturnsUpdatedAuthor() throws Exception {
+        AuthorEntity testAuthorEntity = TestDataUtil.createTestAuthor();
+        AuthorEntity savedAuthorEntity = authorService.save(testAuthorEntity);
+
+        AuthorDto authorDto = TestDataUtil.createTestAuthorDto();
+        authorDto.setName("UPDATED");
+        String authorDtoJson = objectMapper.writeValueAsString(authorDto);
+
+        System.out.println(authorDto);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.patch("/authors/" + savedAuthorEntity.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(authorDtoJson)
+        ).andExpect(MockMvcResultMatchers.jsonPath("$.id").value(savedAuthorEntity.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("UPDATED"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(authorDto.getAge()));
     }
 
 }
