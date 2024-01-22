@@ -18,4 +18,6 @@ public interface BookService {
     boolean isExist(String isbn);
 
     BookEntity patrialUpdate(String isbn, BookEntity bookEntity);
+
+    void delete(String isbn);
 }
