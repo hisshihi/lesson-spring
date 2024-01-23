@@ -67,5 +67,11 @@ public class AuthorServiceImpl implements AuthorService {
         }).orElseThrow(() -> new RuntimeException("Автор не существует"));
     }
 
+    @Override
+    public void delete(Long id) {
+        authorRepository.deleteById(id);
+
+    }
+
 
 }

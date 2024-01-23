@@ -4,6 +4,9 @@ import com.lessonSpring.quickstar.domain.dto.AuthorDto;
 import com.lessonSpring.quickstar.domain.dto.BookDto;
 import com.lessonSpring.quickstar.domain.entities.AuthorEntity;
 import com.lessonSpring.quickstar.domain.entities.BookEntity;
+import com.lessonSpring.quickstar.domain.entities.PostEntity;
+
+import java.time.LocalDateTime;
 
 public final class TestDataUtil {
 
@@ -72,6 +75,15 @@ public final class TestDataUtil {
                 .isbn("079867")
                 .title("Story about the mysterious life")
                 .authorEntity(authorEntity)
+                .build();
+    }
+
+    public static PostEntity createPostA() {
+        return PostEntity.builder()
+                .id(1L)
+                .title("Первый пост")
+                .text("Мой первый пост")
+                .time(LocalDateTime.now())
                 .build();
     }
 

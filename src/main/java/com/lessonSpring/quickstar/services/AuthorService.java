@@ -19,4 +19,6 @@ public interface AuthorService {
     boolean isExists(Long id);
 
     AuthorEntity patrialUpdate(Long id, AuthorEntity authorEntity);
+
+    void delete(Long id);
 }

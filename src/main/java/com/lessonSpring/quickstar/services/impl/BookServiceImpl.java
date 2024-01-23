@@ -4,6 +4,8 @@ import com.lessonSpring.quickstar.domain.dto.BookDto;
 import com.lessonSpring.quickstar.domain.entities.BookEntity;
 import com.lessonSpring.quickstar.repositories.BookRepository;
 import com.lessonSpring.quickstar.services.BookService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,6 +35,12 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Page<BookEntity> findAll(Pageable pageable) {
+        return bookRepository.findAll(pageable);
+    }
+
+
+    @Override
     public Optional<BookEntity> findOne(String isbn) {
         return bookRepository.findById(isbn);
     }
@@ -51,6 +59,11 @@ public class BookServiceImpl implements BookService {
             Optional.ofNullable(bookEntity.getTitle()).ifPresent(existingBook::setTitle);
             return bookRepository.save(existingBook);
         }).orElseThrow(() -> new RuntimeException("Книга не существует"));
+    }
+
+    @Override
+    public void delete(String isbn) {
+        bookRepository.deleteById(isbn);
     }
 
 
