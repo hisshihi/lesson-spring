@@ -1,20 +1,19 @@
 package com.lessonSpring.quickstar.domain.entities;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Entity
 @Table(name = "posts")
 public class PostEntity {
 
@@ -26,6 +25,6 @@ public class PostEntity {
 
     private String text;
 
-    private Date time;
+    private LocalDateTime time;
 
 }
