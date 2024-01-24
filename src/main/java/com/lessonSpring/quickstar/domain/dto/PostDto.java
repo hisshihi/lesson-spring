@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -19,6 +18,6 @@ public class PostDto {
 
     private String text;
 
-    private Date time;
+    private String time;
 
 }
