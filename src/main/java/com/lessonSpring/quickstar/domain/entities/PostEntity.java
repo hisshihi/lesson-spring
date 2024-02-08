@@ -25,6 +25,6 @@ public class PostEntity {
 
     private String text;
 
-    private LocalDateTime time;
+    private String time;
 
 }
