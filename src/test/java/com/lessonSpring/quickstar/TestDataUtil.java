@@ -83,7 +83,6 @@ public final class TestDataUtil {
                 .id(1L)
                 .title("Первый пост")
                 .text("Мой первый пост")
-                .time(LocalDateTime.now())
                 .build();
     }
 
